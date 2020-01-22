@@ -1,0 +1,28 @@
+{
+  "name": "ride-scheduler",
+  "version": "1.0.0",
+  "description": "Ride Scheduler built with the MERN stack",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gac2117/ride-scheduler.git"
+  },
+  "author": "Grace Choi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gac2117/ride-scheduler/issues"
+  },
+  "homepage": "https://github.com/gac2117/ride-scheduler#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "concurrently": "^5.0.2",
+    "express": "^4.17.1",
+    "mongoose": "^5.8.9"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
