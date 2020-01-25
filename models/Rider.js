@@ -9,3 +9,5 @@ const RiderSchema = new Schema({
   },
   ride_ids: []
 });
+
+module.exports = Rider = mongoose.model('rider, RiderSchema');

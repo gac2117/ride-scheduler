@@ -9,3 +9,5 @@ const DriverSchema = new Schema({
   },
   ride_ids: []
 });
+
+module.exports = Driver = mongoose.model('driver, DriverSchema');

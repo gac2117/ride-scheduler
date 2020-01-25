@@ -9,6 +9,13 @@ const RideSchema = new Schema({
   },
   date: {
     type: Date,
-    default: Date.now
+    default: Date.now,
+    required: true
+  },
+  riderName: {
+    type: String,
+    required: true
   }
 });
+
+module.exports = Ride = mongoose.model('ride, RideSchema');
