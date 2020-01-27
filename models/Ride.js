@@ -18,4 +18,4 @@ const RideSchema = new Schema({
   }
 });
 
-module.exports = Ride = mongoose.model('ride, RideSchema');
+module.exports = Ride = mongoose.model('ride', RideSchema);
