@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const rides = require('./routes/api/rides');
+const drivers = require('./routes/api/drivers');
+// const riders = require('./routes/api/riders');
 
 const app = express();
 
@@ -18,6 +20,8 @@ mongoose
 
 // Use Routes
 app.use('/api/rides', rides);
+app.use('/api/drivers', drivers);
+// app.use('/api/riders', riders);
 
 const port = process.env.PORT || 5000;
 
