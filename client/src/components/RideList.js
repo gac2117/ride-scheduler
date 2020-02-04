@@ -6,14 +6,19 @@ import uuid from 'uuid';
 class RideList extends Component {
   state = {
     rides: [
-      { id: uuid(), location: 'School', date: Date.now, riderName: 'Joelle' },
+      {
+        id: uuid(),
+        location: 'School',
+        date: '2020-02-20',
+        riderName: 'Joelle'
+      },
       {
         id: uuid(),
         location: 'Church',
-        date: 2 / 20 / 2020,
+        date: '2020-02-10',
         riderName: 'Caleb'
       },
-      { id: uuid(), location: 'Home', date: Date.now, riderName: 'Isaiah' }
+      { id: uuid(), location: 'Home', date: '2020-02-15', riderName: 'Isaiah' }
     ]
   };
 
@@ -40,6 +45,31 @@ class RideList extends Component {
         >
           Add Ride
         </Button>
+        <ListGroup>
+          <TransitionGroup className='ride-list'>
+            {rides.map(({ id, riderName, location, date }) => (
+              <CSSTransition key={id} timeout={500} classNames='fade'>
+                <ListGroupItem>
+                  {riderName} at {location} on {date}
+                  <Button
+                    className='remove-btn'
+                    color='danger'
+                    size='sm'
+                    onClick={() => {
+                      this.setState(state => ({
+                        rides: state.rides.filter(
+                          ride => ListGroupItem.id !== id
+                        )
+                      }));
+                    }}
+                  >
+                    &times;
+                  </Button>
+                </ListGroupItem>
+              </CSSTransition>
+            ))}
+          </TransitionGroup>
+        </ListGroup>
       </Container>
     );
   }
