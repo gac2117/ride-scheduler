@@ -57,9 +57,7 @@ class RideList extends Component {
                     size='sm'
                     onClick={() => {
                       this.setState(state => ({
-                        rides: state.rides.filter(
-                          ride => ListGroupItem.id !== id
-                        )
+                        rides: state.rides.filter(ride => ride.id !== id)
                       }));
                     }}
                   >
