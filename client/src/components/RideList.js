@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import uuid from 'uuid';
 import { connect } from 'react-redux';
-import { getRides } from '../actions/rideActions';
+import { getRides, deleteRide } from '../actions/rideActions';
 import PropTypes from 'prop-types';
 
 class RideList extends Component {
@@ -11,29 +10,14 @@ class RideList extends Component {
     this.props.getRides();
   }
 
+  onDeleteClick = id => {
+    this.props.deleteRide(id);
+  };
+
   render() {
     const { rides } = this.props.ride;
     return (
       <Container>
-        <Button
-          color='dark'
-          style={{ marginBottom: '2rem' }}
-          onClick={() => {
-            const riderName = prompt('Enter Name');
-            const location = prompt('Enter location');
-            const date = prompt('Enter date');
-            if (riderName) {
-              this.setState(state => ({
-                rides: [
-                  ...state.rides,
-                  { id: uuid(), location, date, riderName }
-                ]
-              }));
-            }
-          }}
-        >
-          Add Ride
-        </Button>
         <ListGroup>
           <TransitionGroup className='ride-list'>
             {rides.map(({ id, riderName, location, date }) => (
@@ -44,11 +28,7 @@ class RideList extends Component {
                     className='remove-btn'
                     color='danger'
                     size='sm'
-                    onClick={() => {
-                      this.setState(state => ({
-                        rides: state.rides.filter(ride => ride.id !== id)
-                      }));
-                    }}
+                    onClick={this.onDeleteClick.bind(this, id)}
                   >
                     &times;
                   </Button>
@@ -70,4 +50,4 @@ RideList.propTypes = {
 const mapStateToProps = state => ({
   ride: state.ride
 });
-export default connect(mapStateToProps, { getRides })(RideList);
+export default connect(mapStateToProps, { getRides, deleteRide })(RideList);

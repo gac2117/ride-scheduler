@@ -5,3 +5,10 @@ export const getRides = () => {
     type: GET_RIDES
   };
 };
+
+export const deleteRide = id => {
+  return {
+    type: DELETE_RIDE,
+    payload: id
+  };
+};
