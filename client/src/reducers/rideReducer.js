@@ -38,6 +38,11 @@ export default function(state = initialState, action) {
         ...state,
         rides: state.rides.filter(ride => ride.id !== action.payload)
       };
+    case ADD_RIDE:
+      return {
+        ...state,
+        rides: [action.payload, ...state.rides]
+      };
     default:
       return state;
   }

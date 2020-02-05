@@ -12,3 +12,10 @@ export const deleteRide = id => {
     payload: id
   };
 };
+
+export const addRide = ride => {
+  return {
+    type: ADD_RIDE,
+    payload: ride
+  };
+};
