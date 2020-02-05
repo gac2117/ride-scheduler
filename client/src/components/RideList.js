@@ -2,28 +2,17 @@ import React, { Component } from 'react';
 import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import uuid from 'uuid';
+import { connect } from 'react-redux';
+import { getRides } from '../actions/rideActions';
+import PropTypes from 'prop-types';
 
 class RideList extends Component {
-  state = {
-    rides: [
-      {
-        id: uuid(),
-        location: 'School',
-        date: '2020-02-20',
-        riderName: 'Joelle'
-      },
-      {
-        id: uuid(),
-        location: 'Church',
-        date: '2020-02-10',
-        riderName: 'Caleb'
-      },
-      { id: uuid(), location: 'Home', date: '2020-02-15', riderName: 'Isaiah' }
-    ]
-  };
+  componentDidMount() {
+    this.props.getRides();
+  }
 
   render() {
-    const { rides } = this.state;
+    const { rides } = this.props.ride;
     return (
       <Container>
         <Button
@@ -73,4 +62,12 @@ class RideList extends Component {
   }
 }
 
-export default RideList;
+RideList.propTypes = {
+  getRides: PropTypes.func.isRequired,
+  ride: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  ride: state.ride
+});
+export default connect(mapStateToProps, { getRides })(RideList);
