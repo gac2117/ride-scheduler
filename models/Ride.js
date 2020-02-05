@@ -15,6 +15,10 @@ const RideSchema = new Schema({
   riderName: {
     type: String,
     required: true
+  },
+  time: {
+    type: String,
+    required: true
   }
 });
 

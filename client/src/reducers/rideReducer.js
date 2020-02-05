@@ -7,15 +7,23 @@ const initialState = {
       id: uuid(),
       location: 'School',
       date: '2020-02-20',
-      riderName: 'Joelle'
+      riderName: 'Joelle',
+      time: '11AM'
     },
     {
       id: uuid(),
       location: 'Church',
       date: '2020-02-10',
-      riderName: 'Caleb'
+      riderName: 'Caleb',
+      time: '11:30'
     },
-    { id: uuid(), location: 'Home', date: '2020-02-15', riderName: 'Isaiah' }
+    {
+      id: uuid(),
+      location: 'Home',
+      date: '2020-02-15',
+      riderName: 'Isaiah',
+      time: '1:30pm'
+    }
   ]
 };
 
