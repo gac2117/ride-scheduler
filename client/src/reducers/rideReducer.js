@@ -21,7 +21,7 @@ export default function(state = initialState, action) {
     case DELETE_RIDE:
       return {
         ...state,
-        rides: state.rides.filter(ride => ride.id !== action.payload)
+        rides: state.rides.filter(ride => ride._id !== action.payload)
       };
     case ADD_RIDE:
       return {

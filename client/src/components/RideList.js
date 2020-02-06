@@ -20,15 +20,15 @@ class RideList extends Component {
       <Container>
         <ListGroup>
           <TransitionGroup className='ride-list'>
-            {rides.map(({ id, riderName, location, date, time }) => (
-              <CSSTransition key={id} timeout={500} classNames='fade'>
+            {rides.map(({ _id, riderName, location, date, time }) => (
+              <CSSTransition key={_id} timeout={500} classNames='fade'>
                 <ListGroupItem>
                   {riderName} at {location} on {date} at {time}
                   <Button
                     className='remove-btn'
                     color='danger'
                     size='sm'
-                    onClick={this.onDeleteClick.bind(this, id)}
+                    onClick={this.onDeleteClick.bind(this, _id)}
                   >
                     &times;
                   </Button>

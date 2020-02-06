@@ -20,11 +20,13 @@ export const addRide = ride => dispatch => {
   );
 };
 
-export const deleteRide = id => {
-  return {
-    type: DELETE_RIDE,
-    payload: id
-  };
+export const deleteRide = id => dispatch => {
+  axios.delete(`/api/rides/${id}`).then(res =>
+    dispatch({
+      type: DELETE_RIDE,
+      payload: id
+    })
+  );
 };
 
 export const setRidesLoading = () => {
