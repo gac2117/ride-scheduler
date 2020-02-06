@@ -15,7 +15,9 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case GET_RIDES:
       return {
-        ...state
+        ...state,
+        rides: action.payload,
+        loading: false
       };
     case DELETE_RIDE:
       return {

@@ -1,9 +1,14 @@
+import axios from 'axios';
 import { GET_RIDES, ADD_RIDE, DELETE_RIDE, RIDES_LOADING } from './types';
 
-export const getRides = () => {
-  return {
-    type: GET_RIDES
-  };
+export const getRides = () => dispatch => {
+  dispatch(setRidesLoading());
+  axios.get('/api/rides').then(res =>
+    dispatch({
+      type: GET_RIDES,
+      payload: res.data
+    })
+  );
 };
 
 export const deleteRide = id => {
