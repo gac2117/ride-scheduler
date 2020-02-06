@@ -54,7 +54,7 @@ class RideModal extends Component {
     return (
       <div>
         <Button
-          color='dark'
+          color='primary'
           style={{ marginBottom: '2rem' }}
           onClick={this.toggle}
         >
@@ -105,7 +105,7 @@ class RideModal extends Component {
                   onChange={this.onChange}
                 />
               </FormGroup>
-              <Button color='dark' style={{ marginTop: '2rem' }} block>
+              <Button color='primary' style={{ marginTop: '2rem' }} block>
                 Add Ride
               </Button>
             </Form>

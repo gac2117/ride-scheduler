@@ -23,7 +23,7 @@ class AppNavbar extends Component {
   render() {
     return (
       <div>
-        <Navbar color='success' dark expand='sm' className='mb-5'>
+        <Navbar color='primary' dark expand='sm' className='mb-5'>
           <Container>
             <NavbarBrand href='/'>Ride Scheduler</NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
