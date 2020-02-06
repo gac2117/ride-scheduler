@@ -18,7 +18,8 @@ router.get('/', (req, res) => {
 // @access public
 router.post('/', (req, res) => {
   const newRide = new Ride({
-    location: req.body.location,
+    origin: req.body.origin,
+    destination: req.body.destination,
     date: req.body.date,
     riderName: req.body.riderName,
     time: req.body.time
