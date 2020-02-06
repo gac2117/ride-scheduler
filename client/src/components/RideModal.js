@@ -11,12 +11,14 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { addRide } from '../actions/rideActions';
+import moment from 'moment';
 
 class RideModal extends Component {
   state = {
     modal: false,
     riderName: '',
-    location: '',
+    origin: '',
+    destination: '',
     date: '',
     time: ''
   };
@@ -36,8 +38,9 @@ class RideModal extends Component {
 
     const newRide = {
       riderName: this.state.riderName,
-      location: this.state.location,
-      date: this.state.date,
+      origin: this.state.origin,
+      destination: this.state.destination,
+      date: moment(this.state.date).format('MMMM D, YYYY'),
       time: this.state.time
     };
 
@@ -74,11 +77,21 @@ class RideModal extends Component {
                 />
               </FormGroup>
               <FormGroup>
-                <Label for='location'>Location</Label>
+                <Label for='origin'>From</Label>
                 <Input
                   type='text'
-                  name='location'
-                  id='location'
+                  name='origin'
+                  id='origin'
+                  placeholder='Name of Location'
+                  onChange={this.onChange}
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label for='destination'>To</Label>
+                <Input
+                  type='text'
+                  name='destination'
+                  id='destination'
                   placeholder='Name of Location'
                   onChange={this.onChange}
                 />

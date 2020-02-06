@@ -3,13 +3,16 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const RideSchema = new Schema({
-  location: {
+  origin: {
+    type: String,
+    required: true
+  },
+  destination: {
     type: String,
     required: true
   },
   date: {
-    type: Date,
-    default: Date.now,
+    type: String,
     required: true
   },
   riderName: {
