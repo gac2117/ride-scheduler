@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
+import {
+  Container,
+  ListGroup,
+  ListGroupItem,
+  ListGroupItemHeading,
+  ListGroupItemText,
+  Button
+} from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
 import { getRides, deleteRide } from '../actions/rideActions';
@@ -24,10 +31,21 @@ class RideList extends Component {
               ({ _id, riderName, origin, destination, date, time }) => (
                 <CSSTransition key={_id} timeout={500} classNames='fade'>
                   <ListGroupItem>
-                    {riderName} from {origin} to {destination} on {date} at{' '}
-                    {time}
+                    <ListGroupItemHeading>{riderName}</ListGroupItemHeading>
+                    <ListGroupItemText>
+                      From {origin} to {destination} on {date} at {time}
+                    </ListGroupItemText>
+                    <Button
+                      className='ride-btn'
+                      color='warning'
+                      size='md'
+                      // onClick={this.onGiveRideClick.bind(this, _id)}
+                    >
+                      Give Ride
+                    </Button>
                     <Button
                       className='remove-btn'
+                      outline
                       color='danger'
                       size='sm'
                       onClick={this.onDeleteClick.bind(this, _id)}

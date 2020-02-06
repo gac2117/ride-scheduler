@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Container,
   Button,
   Modal,
   ModalHeader,
@@ -54,74 +55,76 @@ class RideModal extends Component {
   render() {
     return (
       <div>
-        <Button
-          color='primary'
-          style={{ marginBottom: '2rem' }}
-          onClick={this.toggle}
-        >
-          I need a ride
-        </Button>
+        <Container>
+          <Button
+            color='dark'
+            style={{ marginBottom: '2rem' }}
+            onClick={this.toggle}
+          >
+            I need a ride
+          </Button>
 
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Ride Details</ModalHeader>
-          <ModalBody>
-            <Form onSubmit={this.onSubmit}>
-              <FormGroup>
-                <Label for='name'>Name</Label>
-                <Input
-                  type='text'
-                  name='riderName'
-                  id='name'
-                  placeholder='Name of Rider'
-                  onChange={this.onChange}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for='origin'>From</Label>
-                <Input
-                  type='text'
-                  name='origin'
-                  id='origin'
-                  placeholder='Name of Location'
-                  onChange={this.onChange}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for='destination'>To</Label>
-                <Input
-                  type='text'
-                  name='destination'
-                  id='destination'
-                  placeholder='Name of Location'
-                  onChange={this.onChange}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for='date'>Date</Label>
-                <Input
-                  type='date'
-                  name='date'
-                  id='date'
-                  placeholder='Date'
-                  onChange={this.onChange}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for='time'>Time</Label>
-                <Input
-                  type='text'
-                  name='time'
-                  id='time'
-                  placeholder='Time - include AM or PM'
-                  onChange={this.onChange}
-                />
-              </FormGroup>
-              <Button color='primary' style={{ marginTop: '2rem' }} block>
-                Add Ride
-              </Button>
-            </Form>
-          </ModalBody>
-        </Modal>
+          <Modal isOpen={this.state.modal} toggle={this.toggle}>
+            <ModalHeader toggle={this.toggle}>Ride Details</ModalHeader>
+            <ModalBody>
+              <Form onSubmit={this.onSubmit}>
+                <FormGroup>
+                  <Label for='name'>Name</Label>
+                  <Input
+                    type='text'
+                    name='riderName'
+                    id='name'
+                    placeholder='Name of Rider'
+                    onChange={this.onChange}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for='origin'>From</Label>
+                  <Input
+                    type='text'
+                    name='origin'
+                    id='origin'
+                    placeholder='Name of Location'
+                    onChange={this.onChange}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for='destination'>To</Label>
+                  <Input
+                    type='text'
+                    name='destination'
+                    id='destination'
+                    placeholder='Name of Location'
+                    onChange={this.onChange}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for='date'>Date</Label>
+                  <Input
+                    type='date'
+                    name='date'
+                    id='date'
+                    placeholder='Date'
+                    onChange={this.onChange}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for='time'>Time</Label>
+                  <Input
+                    type='text'
+                    name='time'
+                    id='time'
+                    placeholder='Time - include AM or PM'
+                    onChange={this.onChange}
+                  />
+                </FormGroup>
+                <Button color='primary' style={{ marginTop: '2rem' }} block>
+                  Add Ride
+                </Button>
+              </Form>
+            </ModalBody>
+          </Modal>
+        </Container>
       </div>
     );
   }
