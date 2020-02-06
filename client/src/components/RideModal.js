@@ -11,7 +11,6 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { addRide } from '../actions/rideActions';
-import uuid from 'uuid';
 
 class RideModal extends Component {
   state = {
@@ -36,7 +35,6 @@ class RideModal extends Component {
     e.preventDefault();
 
     const newRide = {
-      id: uuid(),
       riderName: this.state.riderName,
       location: this.state.location,
       date: this.state.date,
@@ -98,7 +96,7 @@ class RideModal extends Component {
               <FormGroup>
                 <Label for='time'>Time</Label>
                 <Input
-                  type='string'
+                  type='text'
                   name='time'
                   id='time'
                   placeholder='Time - include AM or PM'

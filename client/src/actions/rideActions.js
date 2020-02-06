@@ -11,17 +11,19 @@ export const getRides = () => dispatch => {
   );
 };
 
+export const addRide = ride => dispatch => {
+  axios.post('/api/rides', ride).then(res =>
+    dispatch({
+      type: ADD_RIDE,
+      payload: res.data
+    })
+  );
+};
+
 export const deleteRide = id => {
   return {
     type: DELETE_RIDE,
     payload: id
-  };
-};
-
-export const addRide = ride => {
-  return {
-    type: ADD_RIDE,
-    payload: ride
   };
 };
 

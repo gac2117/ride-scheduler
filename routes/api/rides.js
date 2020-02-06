@@ -20,7 +20,8 @@ router.post('/', (req, res) => {
   const newRide = new Ride({
     location: req.body.location,
     date: req.body.date,
-    riderName: req.body.name
+    riderName: req.body.riderName,
+    time: req.body.time
   });
   newRide.save().then(ride => res.json(ride));
 });
