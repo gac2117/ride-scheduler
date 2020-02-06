@@ -1,9 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const config = require('config');
+
 const rides = require('./routes/api/rides');
 const drivers = require('./routes/api/drivers');
 const riders = require('./routes/api/riders');
+const auth = require('./routes/api/auth');
 
 const app = express();
 
@@ -26,6 +28,7 @@ mongoose
 app.use('/api/rides', rides);
 app.use('/api/drivers', drivers);
 app.use('/api/riders', riders);
+app.use('/api/auth', auth);
 
 const port = process.env.PORT || 5000;
 
