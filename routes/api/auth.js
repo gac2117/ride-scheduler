@@ -28,22 +28,17 @@ router.post('/', (req, res) => {
     // Validate password
     bcrypt.compare(password, driver.password).then(isMatch => {
       if (!isMatch) return res.status(400).json({ msg: 'Invalid password' });
-      jwt.sign(
-        { id: driver.id },
-        config.get('jwtSecret'),
-        { expiresIn: 3600 },
-        (err, token) => {
-          if (err) throw err;
-          res.json({
-            token,
-            driver: {
-              id: driver.id,
-              name: driver.name,
-              email: driver.email
-            }
-          });
-        }
-      );
+      jwt.sign({ id: driver.id }, config.get('jwtSecret'), (err, token) => {
+        if (err) throw err;
+        res.json({
+          token,
+          driver: {
+            id: driver.id,
+            name: driver.name,
+            email: driver.email
+          }
+        });
+      });
     });
   });
 });
