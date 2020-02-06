@@ -1,9 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const config = require('config');
+const jwt = require('jsonwebtoken');
 
 // Driver Model
 const Driver = require('../../models/Driver');
+
+// @route GET api/drivers
+// @desc Get all drivers
+// @access public
+router.get('/', (req, res) => {
+  Driver.find().then(drivers => res.json(drivers));
+});
 
 // @route POST api/drivers
 // @desc Register new driver
@@ -33,13 +42,22 @@ router.post('/', (req, res) => {
         if (err) throw err;
         newDriver.password = hash;
         newDriver.save().then(driver => {
-          res.json({
-            driver: {
-              id: driver.id,
-              name: driver.name,
-              email: driver.email
+          jwt.sign(
+            { id: driver.id },
+            config.get('jwtSecret'),
+            { expiresIn: 3600 },
+            (err, token) => {
+              if (err) throw err;
+              res.json({
+                token,
+                driver: {
+                  id: driver.id,
+                  name: driver.name,
+                  email: driver.email
+                }
+              });
             }
-          });
+          );
         });
       });
     });
