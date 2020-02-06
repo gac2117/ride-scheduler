@@ -1,30 +1,14 @@
 import uuid from 'uuid';
-import { GET_RIDES, ADD_RIDE, DELETE_RIDE } from '../actions/types';
+import {
+  GET_RIDES,
+  ADD_RIDE,
+  DELETE_RIDE,
+  RIDES_LOADING
+} from '../actions/types';
 
 const initialState = {
-  rides: [
-    {
-      id: uuid(),
-      location: 'School',
-      date: '2020-02-20',
-      riderName: 'Joelle',
-      time: '11AM'
-    },
-    {
-      id: uuid(),
-      location: 'Church',
-      date: '2020-02-10',
-      riderName: 'Caleb',
-      time: '11:30'
-    },
-    {
-      id: uuid(),
-      location: 'Home',
-      date: '2020-02-15',
-      riderName: 'Isaiah',
-      time: '1:30pm'
-    }
-  ]
+  rides: [],
+  loading: false
 };
 
 export default function(state = initialState, action) {
@@ -42,6 +26,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         rides: [action.payload, ...state.rides]
+      };
+    case RIDES_LOADING:
+      return {
+        ...state,
+        loading: true
       };
     default:
       return state;
