@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const config = require('config');
 const jwt = require('jsonwebtoken');
+const auth = require('../../middleware/auth');
 
 // Driver Model
 const Driver = require('../../models/Driver');
@@ -45,6 +46,15 @@ router.post('/', (req, res) => {
       );
     });
   });
+});
+
+// @route GET api/auth/driver
+// @desc Get user data
+// @access private
+router.get('/user', auth, (req, res) => {
+  Driver.findById(req.driver.id)
+    .select('-password')
+    .then(driver => res.json(driver));
 });
 
 module.exports = router;

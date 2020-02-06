@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../../middleware/auth');
 
 // Ride Model
 const Ride = require('../../models/Ride');
@@ -15,8 +16,8 @@ router.get('/', (req, res) => {
 
 // @route POST api/rides
 // @desc Create a ride
-// @access public
-router.post('/', (req, res) => {
+// @access private
+router.post('/', auth, (req, res) => {
   const newRide = new Ride({
     origin: req.body.origin,
     destination: req.body.destination,
@@ -29,8 +30,8 @@ router.post('/', (req, res) => {
 
 // @route DELETE api/rides/:id
 // @desc Delete a ride
-// @access public
-router.delete('/:id', (req, res) => {
+// @access private
+router.delete('/:id', auth, (req, res) => {
   Ride.findById(req.params.id)
     .then(ride => ride.remove().then(() => res.json({ success: true })))
     .catch(err => res.status(404).json({ success: false }));
