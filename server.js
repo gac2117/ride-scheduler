@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
+const config = require('config');
 const rides = require('./routes/api/rides');
 const drivers = require('./routes/api/drivers');
 const riders = require('./routes/api/riders');
@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 
 // DB config
-const db = require('./config/keys').mongoURI;
+const db = config.get('mongoURI');
 
 // Connect to Mongo
 mongoose
