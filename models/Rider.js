@@ -7,7 +7,15 @@ const RiderSchema = new Schema({
     type: String,
     required: true
   },
-  ride_ids: []
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true
+  }
 });
 
 module.exports = Rider = mongoose.model('rider', RiderSchema);

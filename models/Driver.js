@@ -7,7 +7,15 @@ const DriverSchema = new Schema({
     type: String,
     required: true
   },
-  ride_ids: []
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true
+  }
 });
 
 module.exports = Driver = mongoose.model('driver', DriverSchema);
