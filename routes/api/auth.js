@@ -49,9 +49,9 @@ router.post('/', (req, res) => {
 });
 
 // @route GET api/auth/driver
-// @desc Get user data
+// @desc Get driver data
 // @access private
-router.get('/user', auth, (req, res) => {
+router.get('/driver', auth, (req, res) => {
   Driver.findById(req.driver.id)
     .select('-password')
     .then(driver => res.json(driver));
