@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   Collapse,
   Navbar,
@@ -8,13 +8,21 @@ import {
   NavItem,
   Container
 } from 'reactstrap';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import DriverModal from './auth/DriverModal';
+import LoginModal from './auth/LoginModal';
 import Logout from './auth/Logout';
 
 class AppNavbar extends Component {
   state = {
     isOpen: false
   };
+
+  static propTypes = {
+    auth: PropTypes.object.isRequired
+  };
+
   toggle = () => {
     this.setState({
       isOpen: !this.state.isOpen
@@ -22,6 +30,31 @@ class AppNavbar extends Component {
   };
 
   render() {
+    const { driver, isAuthenticated } = this.props.auth;
+
+    const authLinks = (
+      <Fragment>
+        <NavItem>
+          <span className='navbar-test mr-3'>
+            <strong>{driver ? `Welcome ${driver.name}` : null}</strong>
+          </span>
+        </NavItem>
+        <NavItem>
+          <Logout />
+        </NavItem>
+      </Fragment>
+    );
+
+    const guestLinks = (
+      <Fragment>
+        <NavItem>
+          <DriverModal />
+        </NavItem>
+        <NavItem>
+          <LoginModal />
+        </NavItem>
+      </Fragment>
+    );
     return (
       <div>
         <Navbar color='secondary' dark expand='sm' className='mb-5'>
@@ -30,12 +63,7 @@ class AppNavbar extends Component {
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className='ml-auto' navbar>
-                <NavItem>
-                  <DriverModal />
-                </NavItem>
-                <NavItem>
-                  <Logout />
-                </NavItem>
+                {isAuthenticated ? authLinks : guestLinks}
               </Nav>
             </Collapse>
           </Container>
@@ -44,5 +72,8 @@ class AppNavbar extends Component {
     );
   }
 }
+const mapStateToProps = state => ({
+  auth: state.auth
+});
 
-export default AppNavbar;
+export default connect(mapStateToProps, null)(AppNavbar);
