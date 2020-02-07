@@ -13,6 +13,12 @@ import { getRides, deleteRide } from '../actions/rideActions';
 import PropTypes from 'prop-types';
 
 class RideList extends Component {
+  static propTypes = {
+    getRides: PropTypes.func.isRequired,
+    ride: PropTypes.object.isRequired,
+    isAuthenticated: PropTypes.bool
+  };
+
   componentDidMount() {
     this.props.getRides();
   }
@@ -35,23 +41,27 @@ class RideList extends Component {
                     <ListGroupItemText>
                       From {origin} to {destination} on {date} at {time}
                     </ListGroupItemText>
-                    <Button
-                      className='ride-btn'
-                      color='warning'
-                      size='md'
-                      // onClick={this.onGiveRideClick.bind(this, _id)}
-                    >
-                      Give Ride
-                    </Button>
-                    <Button
-                      className='remove-btn'
-                      outline
-                      color='danger'
-                      size='sm'
-                      onClick={this.onDeleteClick.bind(this, _id)}
-                    >
-                      &times;
-                    </Button>
+                    {this.props.isAuthenticated ? (
+                      <Button
+                        className='ride-btn'
+                        color='warning'
+                        size='md'
+                        // onClick={this.onGiveRideClick.bind(this, _id)}
+                      >
+                        Give Ride
+                      </Button>
+                    ) : null}
+                    {this.props.isAuthenticated ? (
+                      <Button
+                        className='remove-btn'
+                        outline
+                        color='danger'
+                        size='sm'
+                        onClick={this.onDeleteClick.bind(this, _id)}
+                      >
+                        &times;
+                      </Button>
+                    ) : null}
                   </ListGroupItem>
                 </CSSTransition>
               )
@@ -63,12 +73,8 @@ class RideList extends Component {
   }
 }
 
-RideList.propTypes = {
-  getRides: PropTypes.func.isRequired,
-  ride: PropTypes.object.isRequired
-};
-
 const mapStateToProps = state => ({
-  ride: state.ride
+  ride: state.ride,
+  isAuthenticated: state.auth.isAuthenticated
 });
 export default connect(mapStateToProps, { getRides, deleteRide })(RideList);
