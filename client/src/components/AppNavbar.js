@@ -9,6 +9,7 @@ import {
   Container
 } from 'reactstrap';
 import DriverModal from './auth/DriverModal';
+import Logout from './auth/Logout';
 
 class AppNavbar extends Component {
   state = {
@@ -31,6 +32,9 @@ class AppNavbar extends Component {
               <Nav className='ml-auto' navbar>
                 <NavItem>
                   <DriverModal />
+                </NavItem>
+                <NavItem>
+                  <Logout />
                 </NavItem>
               </Nav>
             </Collapse>
