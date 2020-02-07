@@ -6,9 +6,9 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
   Container
 } from 'reactstrap';
+import DriverModal from './auth/DriverModal';
 
 class AppNavbar extends Component {
   state = {
@@ -30,9 +30,7 @@ class AppNavbar extends Component {
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className='ml-auto' navbar>
                 <NavItem>
-                  <NavLink href='https://github.com/gac2117/ride-scheduler'>
-                    GitHub
-                  </NavLink>
+                  <DriverModal />
                 </NavItem>
               </Nav>
             </Collapse>

@@ -118,7 +118,7 @@ class RideModal extends Component {
                     onChange={this.onChange}
                   />
                 </FormGroup>
-                <Button color='primary' style={{ marginTop: '2rem' }} block>
+                <Button color='dark' style={{ marginTop: '2rem' }} block>
                   Add Ride
                 </Button>
               </Form>
