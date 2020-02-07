@@ -35,7 +35,7 @@ class AppNavbar extends Component {
     const authLinks = (
       <Fragment>
         <NavItem>
-          <span className='navbar-test mr-3'>
+          <span className='navbar-text mr-3'>
             <strong>{driver ? `Welcome ${driver.name}` : null}</strong>
           </span>
         </NavItem>

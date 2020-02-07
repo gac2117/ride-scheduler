@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
 // @route POST api/rides
 // @desc Create a ride
 // @access private
-router.post('/', auth, (req, res) => {
+router.post('/', (req, res) => {
   const newRide = new Ride({
     origin: req.body.origin,
     destination: req.body.destination,
