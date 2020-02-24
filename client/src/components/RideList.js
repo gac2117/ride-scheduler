@@ -43,8 +43,9 @@ class RideList extends Component {
       <Container>
         <ListGroup>
           <TransitionGroup className='ride-list'>
-            {rides.map(
-              ({ _id, riderName, origin, destination, date, time }) => (
+            {rides
+              .filter(ride => ride.driver == null)
+              .map(({ _id, riderName, origin, destination, date, time }) => (
                 <CSSTransition key={_id} timeout={500} classNames='fade'>
                   <ListGroupItem>
                     <ListGroupItemHeading>{riderName}</ListGroupItemHeading>
@@ -78,8 +79,7 @@ class RideList extends Component {
                     ) : null}
                   </ListGroupItem>
                 </CSSTransition>
-              )
-            )}
+              ))}
           </TransitionGroup>
         </ListGroup>
       </Container>
