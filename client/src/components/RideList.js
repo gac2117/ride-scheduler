@@ -9,7 +9,7 @@ import {
 } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
-import { getRides, deleteRide } from '../actions/rideActions';
+import { getRides, deleteRide, addDriver } from '../actions/rideActions';
 import PropTypes from 'prop-types';
 
 class RideList extends Component {
@@ -25,6 +25,10 @@ class RideList extends Component {
 
   onDeleteClick = id => {
     this.props.deleteRide(id);
+  };
+
+  onGiveRideClick = id => {
+    this.props.addDriver(id);
   };
 
   render() {
@@ -46,7 +50,7 @@ class RideList extends Component {
                         className='ride-btn'
                         color='warning'
                         size='md'
-                        // onClick={this.onGiveRideClick.bind(this, _id)}
+                        onClick={this.onGiveRideClick.bind(this, _id)}
                       >
                         Give Ride
                       </Button>
@@ -77,4 +81,6 @@ const mapStateToProps = state => ({
   ride: state.ride,
   isAuthenticated: state.auth.isAuthenticated
 });
-export default connect(mapStateToProps, { getRides, deleteRide })(RideList);
+export default connect(mapStateToProps, { getRides, deleteRide, addDriver })(
+  RideList
+);

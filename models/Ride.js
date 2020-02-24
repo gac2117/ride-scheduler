@@ -22,6 +22,10 @@ const RideSchema = new Schema({
   time: {
     type: String,
     required: true
+  },
+  driver: {
+    type: Schema.Types.ObjectId,
+    ref: 'driver'
   }
 });
 

@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 
 // @route POST api/rides
 // @desc Create a ride
-// @access private
+// @access public
 router.post('/', (req, res) => {
   const newRide = new Ride({
     origin: req.body.origin,
@@ -34,6 +34,16 @@ router.post('/', (req, res) => {
 router.delete('/:id', auth, (req, res) => {
   Ride.findById(req.params.id)
     .then(ride => ride.remove().then(() => res.json({ success: true })))
+    .catch(err => res.status(404).json({ success: false }));
+});
+
+// @route PUT api/rides/:id
+// @desc Add a driver id to ride
+// @access private
+router.put('/:id', auth, (req, res) => {
+  Ride.findOneAndUpdate(req.params.id, { $set: { driver: auth.driver._id } })
+    .then(ride => console.log(ride))
+
     .catch(err => res.status(404).json({ success: false }));
 });
 

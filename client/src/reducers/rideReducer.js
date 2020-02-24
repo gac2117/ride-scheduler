@@ -2,7 +2,8 @@ import {
   GET_RIDES,
   ADD_RIDE,
   DELETE_RIDE,
-  RIDES_LOADING
+  RIDES_LOADING,
+  ADD_DRIVER
 } from '../actions/types';
 
 const initialState = {
@@ -27,6 +28,10 @@ export default function(state = initialState, action) {
       return {
         ...state,
         rides: [action.payload, ...state.rides]
+      };
+    case ADD_DRIVER:
+      return {
+        ...state
       };
     case RIDES_LOADING:
       return {
