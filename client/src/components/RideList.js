@@ -16,7 +16,7 @@ class RideList extends Component {
   static propTypes = {
     getRides: PropTypes.func.isRequired,
     ride: PropTypes.object.isRequired,
-    isAuthenticated: PropTypes.bool
+    auth: PropTypes.object.isRequired
   };
 
   componentDidMount() {
@@ -27,12 +27,18 @@ class RideList extends Component {
     this.props.deleteRide(id);
   };
 
-  onGiveRideClick = id => {
-    this.props.addDriver(id);
+  onGiveRideClick = (id, driverID) => {
+    const giveRide = {
+      rideId: id,
+      driverId: driverID
+    };
+    console.log(giveRide);
+    this.props.addDriver(giveRide);
   };
 
   render() {
     const { rides } = this.props.ride;
+    const { driver, isAuthenticated } = this.props.auth;
     return (
       <Container>
         <ListGroup>
@@ -45,17 +51,21 @@ class RideList extends Component {
                     <ListGroupItemText>
                       From {origin} to {destination} on {date} at {time}
                     </ListGroupItemText>
-                    {this.props.isAuthenticated ? (
+                    {isAuthenticated ? (
                       <Button
                         className='ride-btn'
                         color='warning'
                         size='md'
-                        onClick={this.onGiveRideClick.bind(this, _id)}
+                        onClick={this.onGiveRideClick.bind(
+                          this,
+                          _id,
+                          driver._id
+                        )}
                       >
                         Give Ride
                       </Button>
                     ) : null}
-                    {this.props.isAuthenticated ? (
+                    {isAuthenticated ? (
                       <Button
                         className='remove-btn'
                         outline
@@ -79,7 +89,7 @@ class RideList extends Component {
 
 const mapStateToProps = state => ({
   ride: state.ride,
-  isAuthenticated: state.auth.isAuthenticated
+  auth: state.auth
 });
 export default connect(mapStateToProps, { getRides, deleteRide, addDriver })(
   RideList

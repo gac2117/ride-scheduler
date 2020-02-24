@@ -31,7 +31,8 @@ export default function(state = initialState, action) {
       };
     case ADD_DRIVER:
       return {
-        ...state
+        ...state,
+        rides: [action.payload, ...state.rides]
       };
     case RIDES_LOADING:
       return {

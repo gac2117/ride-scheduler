@@ -38,13 +38,13 @@ export const addRide = ride => dispatch => {
     );
 };
 
-export const addDriver = id => (dispatch, getState) => {
+export const addDriver = ids => (dispatch, getState) => {
   axios
-    .put(`/api/rides/${id}`, tokenConfig(getState))
+    .put(`/api/rides/${ids.rideId}`, ids, tokenConfig(getState))
     .then(res =>
       dispatch({
         type: ADD_DRIVER,
-        payload: id
+        payload: res.data
       })
     )
     .catch(err =>
