@@ -40,7 +40,7 @@ export const addRide = ride => dispatch => {
 
 export const addDriver = ids => (dispatch, getState) => {
   axios
-    .put(`/api/rides/${ids.rideId}`, ids, tokenConfig(getState))
+    .post(`/api/rides/${ids.rideId}`, ids, tokenConfig(getState))
     .then(res =>
       dispatch({
         type: ADD_DRIVER,
