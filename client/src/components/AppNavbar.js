@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import DriverModal from './auth/DriverModal';
 import LoginModal from './auth/LoginModal';
+import MyRides from './auth/MyRides';
 import Logout from './auth/Logout';
 
 class AppNavbar extends Component {
@@ -38,6 +39,9 @@ class AppNavbar extends Component {
           <span className='navbar-text mr-3'>
             <strong>{driver ? `Welcome ${driver.name}` : null}</strong>
           </span>
+        </NavItem>
+        <NavItem>
+          <MyRides />
         </NavItem>
         <NavItem>
           <Logout />
