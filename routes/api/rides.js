@@ -10,7 +10,7 @@ const Ride = require('../../models/Ride');
 // @access public
 router.get('/', (req, res) => {
   Ride.find()
-    .sort({ date: -1 })
+    .sort({ date: 1 })
     .then(rides => res.json(rides));
 });
 
@@ -28,13 +28,14 @@ router.post('/', (req, res) => {
   newRide.save().then(ride => res.json(ride));
 });
 
-// @route PUT api/rides/:id
+// @route POST api/rides/:id
 // @desc Add a driver id to ride
 // @access private
-router.put('/:id', auth, (req, res) => {
+router.post('/:id', auth, (req, res) => {
   Ride.findByIdAndUpdate(
     { _id: req.params.id },
-    { driver: req.body.driverId }
+    { driver: req.body.driverId },
+    { new: true }
   ).then(ride => res.json(ride));
 });
 

@@ -30,8 +30,13 @@ export default function(state = initialState, action) {
         rides: [action.payload, ...state.rides]
       };
     case ADD_DRIVER:
+      const newRides = state.rides.filter(
+        ride => ride._id !== action.payload._id
+      );
+      newRides.push(action.payload);
       return {
-        ...state
+        ...state,
+        rides: newRides
       };
     case RIDES_LOADING:
       return {
