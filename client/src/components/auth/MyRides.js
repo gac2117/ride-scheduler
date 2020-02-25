@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getRides } from '../../actions/rideActions';
+import { deleteRide } from '../../actions/rideActions';
 import PropTypes from 'prop-types';
 import {
   Container,
@@ -11,7 +11,8 @@ import {
   Modal,
   ModalBody,
   ModalHeader,
-  NavLink
+  NavLink,
+  Button
 } from 'reactstrap';
 
 class MyRides extends Component {
@@ -20,14 +21,14 @@ class MyRides extends Component {
   };
 
   static propTypes = {
-    getRides: PropTypes.func.isRequired,
+    deleteRide: PropTypes.func.isRequired,
     ride: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired
   };
 
-  componentDidMount() {
-    this.props.getRides();
-  }
+  onDeleteClick = id => {
+    this.props.deleteRide(id);
+  };
 
   toggle = () => {
     this.setState({
@@ -49,7 +50,7 @@ class MyRides extends Component {
             <ModalBody>
               <ListGroup>
                 {rides
-                  .filter(ride => ride.driver === driver.id)
+                  .filter(ride => ride.driver === driver._id)
                   .map(
                     ({
                       _id,
@@ -65,6 +66,15 @@ class MyRides extends Component {
                         <ListGroupItemText>
                           From {origin} to {destination} on {date} at {time}
                         </ListGroupItemText>
+                        <Button
+                          className='remove-btn'
+                          outline
+                          color='danger'
+                          size='sm'
+                          onClick={this.onDeleteClick.bind(this, _id)}
+                        >
+                          &times;
+                        </Button>
                       </ListGroupItem>
                     )
                   )}
@@ -82,4 +92,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { getRides })(MyRides);
+export default connect(mapStateToProps, { deleteRide })(MyRides);
