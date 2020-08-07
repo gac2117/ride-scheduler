@@ -16,14 +16,14 @@ const db = config.get('mongoURI');
 
 // Connect to Mongo
 mongoose
-  .connect(db, {
+  .connect(process.env.MONGODB_URI || 'mongodb://localhost/ride-scheduler', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
-    useFindAndModify: false
+    useFindAndModify: false,
   })
   .then(() => console.log('MongoDB connected...'))
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));
 
 // Use Routes
 app.use('/api/rides', rides);
