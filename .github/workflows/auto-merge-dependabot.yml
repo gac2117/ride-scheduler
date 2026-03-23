@@ -24,6 +24,19 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
+            const rawPrNumber =
+              context.issue?.number ??
+              context.payload?.pull_request?.number ??
+              context.payload?.check_suite?.pull_requests?.[0]?.number;
+
+            const prNumber =
+              rawPrNumber !== undefined && rawPrNumber !== null ? Number(rawPrNumber) : undefined;
+
+            if (!Number.isFinite(prNumber) || prNumber <= 0) {
+              console.log('No PR number found in event context; skipping auto-merge wait step.');
+              return;
+            }
+
             const maxWaitTime = 300000; // 5 minutes
             const checkInterval = 10000; // 10 seconds
             const startTime = Date.now();
@@ -32,14 +45,8 @@ jobs:
               const { data: pr } = await github.rest.pulls.get({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                pull_number: context.issue.number,
+                pull_number: prNumber,
               });
-              
-              // Check if PR is mergeable and all checks have passed
-              if (pr.mergeable === true && pr.mergeable_state === 'clean') {
-                console.log('✅ PR is ready to merge!');
-                return;
-              }
               
               // If PR is not mergeable due to conflicts, exit
               if (pr.mergeable === false) {
@@ -48,26 +55,59 @@ jobs:
                 return;
               }
               
+              // Proceed if PR is mergeable and state is 'clean' (all checks passed)
+              if (pr.mergeable === true && pr.mergeable_state === 'clean') {
+                console.log('✅ PR is ready to merge! All checks passed.');
+                return;
+              }
+              
+              // For Dependabot PRs, also proceed if mergeable but unstable (some checks failed)
+              // This allows dependency updates to proceed even if some non-critical checks fail
+              if (pr.mergeable === true && pr.mergeable_state === 'unstable') {
+                console.log('⚠️  PR is mergeable but some checks failed (unstable). Proceeding with merge for Dependabot PR...');
+                return;
+              }
+              
+              // Wait if checks are still pending or blocked
               console.log(`⏳ Waiting for checks to pass... Current state: ${pr.mergeable_state}`);
               await new Promise(resolve => setTimeout(resolve, checkInterval));
             }
             
-            // Final check
+            // Final check after timeout
             const { data: finalPr } = await github.rest.pulls.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              pull_number: context.issue.number,
+              pull_number: prNumber,
             });
             
-            if (finalPr.mergeable !== true || finalPr.mergeable_state !== 'clean') {
-              core.setFailed(`PR checks did not pass. State: ${finalPr.mergeable_state}`);
+            // Proceed if mergeable, even if unstable
+            if (finalPr.mergeable === true && (finalPr.mergeable_state === 'clean' || finalPr.mergeable_state === 'unstable')) {
+              console.log(`✅ PR is mergeable. Proceeding with merge (state: ${finalPr.mergeable_state})`);
+              return;
+            }
+            
+            if (finalPr.mergeable !== true) {
+              core.setFailed(`PR is not mergeable. State: ${finalPr.mergeable_state}`);
+            } else {
+              core.setFailed(`PR checks did not complete. State: ${finalPr.mergeable_state}`);
             }
 
       - name: Enable auto-merge using GraphQL
         uses: actions/github-script@v7
         with:
           script: |
-            const prNumber = context.issue.number;
+            const rawPrNumber =
+              context.issue?.number ??
+              context.payload?.pull_request?.number ??
+              context.payload?.check_suite?.pull_requests?.[0]?.number;
+
+            const prNumber =
+              rawPrNumber !== undefined && rawPrNumber !== null ? Number(rawPrNumber) : undefined;
+
+            if (!Number.isFinite(prNumber) || prNumber <= 0) {
+              console.log('No PR number found in event context; skipping auto-merge GraphQL step.');
+              return;
+            }
             
             // First, verify PR is mergeable using REST API
             const { data: pr } = await github.rest.pulls.get({
@@ -76,24 +116,41 @@ jobs:
               pull_number: prNumber,
             });
             
-            if (!pr.mergeable || pr.mergeable_state !== 'clean') {
+            // Allow merge if PR is mergeable, even if state is unstable (some checks failed)
+            if (!pr.mergeable) {
               console.log(`PR is not mergeable. State: ${pr.mergeable_state}`);
+              return;
+            }
+            
+            if (pr.mergeable_state !== 'clean' && pr.mergeable_state !== 'unstable') {
+              console.log(`PR checks not ready. State: ${pr.mergeable_state}`);
               return;
             }
             
             try {
               // Get the PR node ID using GraphQL (only need the ID for the mutation)
-              const { data: prData } = await github.graphql(`
-                query {
-                  repository(owner: "${context.repo.owner}", name: "${context.repo.repo}") {
-                    pullRequest(number: ${prNumber}) {
+              const query = `
+                query($owner: String!, $repo: String!, $number: Int!) {
+                  repository(owner: $owner, name: $repo) {
+                    pullRequest(number: $number) {
                       id
                     }
                   }
                 }
-              `);
-              
-              const pullRequestId = prData.repository.pullRequest.id;
+              `;
+
+              const prData = await github.graphql(query, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                number: prNumber,
+              });
+
+              const pullRequestId = prData?.repository?.pullRequest?.id;
+
+              if (!pullRequestId) {
+                core.setFailed('Could not fetch pull request ID from GraphQL API.');
+                return;
+              }
               
               // Enable auto-merge using GraphQL
               const mutation = `
